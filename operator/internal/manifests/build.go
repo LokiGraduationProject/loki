@@ -74,6 +74,13 @@ func BuildAll(opts Options) ([]client.Object, error) {
 			res = append(res, shard)
 		}
 
+		// Alertmanager 배포 추가
+        alertmanagerObjs, err := BuildAlertmanager(opts)
+        if err != nil {
+            return nil, err
+        }
+        res = append(res, alertmanagerObjs...)
+
 		rulerObjs, err := BuildRuler(opts)
 		if err != nil {
 			return nil, err
@@ -181,3 +188,4 @@ func ApplyTLSSettings(opts *Options, profile *openshiftconfigv1.TLSSecurityProfi
 
 	return nil
 }
+
