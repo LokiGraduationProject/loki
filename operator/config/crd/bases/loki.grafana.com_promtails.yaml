@@ -147,6 +147,65 @@ spec:
                       sync_period:
                         type: string
                     type: object
+                  scrape_configs:
+                    items:
+                      properties:
+                        job_name:
+                          type: string
+                        kubernetes_sd_configs:
+                          items:
+                            properties:
+                              role:
+                                type: string
+                            type: object
+                          type: array
+                        pipeline_stages:
+                          items:
+                            properties:
+                              cri:
+                                type: boolean
+                              docker:
+                                type: boolean
+                            type: object
+                          type: array
+                        relabel_configs:
+                          items:
+                            properties:
+                              action:
+                                description: Action to perform based on regex matching.
+                                type: string
+                              modulus:
+                                description: Modulus to take of the hash of the source
+                                  label values.
+                                format: int64
+                                type: integer
+                              regex:
+                                description: Regex is the regular expression against
+                                  which the extracted value is matched.
+                                type: string
+                              replacement:
+                                description: Replacement is the value against which
+                                  a regex replace is performed if the regular expression
+                                  matches.
+                                type: string
+                              separator:
+                                description: Separator placed between concatenated
+                                  source label values.
+                                type: string
+                              source_labels:
+                                description: Their content is concatenated using the
+                                  configured separator.
+                                items:
+                                  type: string
+                                type: array
+                              target_label:
+                                description: TargetLabel is the label to which the
+                                  resulting value is written in a replace action.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   server:
                     properties:
                       disable:

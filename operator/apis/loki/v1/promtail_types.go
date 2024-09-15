@@ -29,6 +29,9 @@ type PromtailConfig struct {
 
 	// +optional
 	TargetConfig TargetConfigConfig `json:"target_config,omitempty"`
+
+	// +optional
+	ScrapeConfigs []ScrapeConfigsConfig `json:"scrape_configs,omitempty"`
 }
 
 type ServerConfig struct {
@@ -172,10 +175,10 @@ type BackoffConfig struct {
 
 type PositionsConfig struct {
 	// +optional
-	Filename string `json:"filename,omitempty"`
+	Filename          string `json:"filename,omitempty"`
 
 	// +optional
-	SyncPeriod string `json:"sync_period,omitempty"`
+	SyncPeriod        string `json:"sync_period,omitempty"`
 
 	// +optional
 	IgnoreInvalidYaml bool `json:"ignore_invalid_yaml,omitempty"`
@@ -184,6 +187,51 @@ type PositionsConfig struct {
 type TargetConfigConfig struct {
 	// +optional
 	SyncPeriod string `json:"sync_period,omitempty"`
+}
+
+type ScrapeConfigsConfig struct {
+	// +optional
+	JobName             string               `json:"job_name"`
+
+	KubernetesSDConfigs []KubernetesSDConfig `json:"kubernetes_sd_configs,omitempty"`
+
+	PipelineStages      []PipelineStage      `json:"pipeline_stages,omitempty"` 
+
+	RelabelConfigs      []RelabelConfigsConfig      `json:"relabel_configs,omitempty"`
+}
+
+type KubernetesSDConfig struct {
+	// +optional
+	Role string `json:"role"`
+}
+
+type PipelineStage struct {
+	Docker bool `json:"docker,omitempty"`
+	Cri    bool `json:"cri,omitempty"`
+}
+
+type RelabelConfigsConfig struct {
+
+	// Their content is concatenated using the configured separator.
+	SourceLabels []string `json:"source_labels,omitempty"` // 기본값 없음
+
+	// Separator placed between concatenated source label values.
+	Separator string `json:"separator,omitempty"` // default = ";"
+
+	// TargetLabel is the label to which the resulting value is written in a replace action.
+	TargetLabel string `json:"target_label,omitempty"` // 기본값 없음
+
+	// Regex is the regular expression against which the extracted value is matched.
+	Regex string `json:"regex,omitempty"` // default = "(.*)"
+
+	// Modulus to take of the hash of the source label values.
+	Modulus uint64 `json:"modulus,omitempty"` // 기본값 없음
+
+	// Replacement is the value against which a regex replace is performed if the regular expression matches.
+	Replacement string `json:"replacement,omitempty"` // default = "$1"
+
+	// Action to perform based on regex matching.
+	Action string `json:"action,omitempty"` // default = "replace"
 }
 
 // PromtailStatus defines the observed state of Promtail
