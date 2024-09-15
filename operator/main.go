@@ -207,6 +207,13 @@ func main() {
 		logger.Error(err, "unable to create controller", "controller", "lokistack-zoneaware-pod")
 		os.Exit(1)
 	}
+	if err = (&lokicontrollers.PromtailReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Promtail")
+		os.Exit(1)
+	}
 	// +kubebuilder:scaffold:builder
 
 	if err = mgr.AddHealthzCheck("health", healthz.Ping); err != nil {
