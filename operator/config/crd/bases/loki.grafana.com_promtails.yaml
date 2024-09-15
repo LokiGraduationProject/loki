@@ -163,9 +163,9 @@ spec:
                           items:
                             properties:
                               cri:
-                                type: boolean
+                                type: object
                               docker:
-                                type: boolean
+                                type: object
                             type: object
                           type: array
                         relabel_configs:
